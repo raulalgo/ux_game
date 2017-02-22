@@ -14,14 +14,27 @@ body {
   margin: 0 16px;
   background: #B9B9B9;
   opacity: 1.00;
-  box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1), 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1), 0px 0px 2px rgba(0, 0, 0, 0.25);
   height: 400px;
   width: 268px;
 }
 
 .exit {
-  transition: background 0.15s ease;
+  transition: background 0.15s ease, box-shadow 0.1s ease;
   background: #FF8500;
+  cursor: pointer;
+
+}
+
+.exit:hover {
+  transition: box-shadow 0.1s ease;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.exit:active {
+  transition: box-shadow 0.1s ease;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12);
   cursor: pointer;
 }
 
@@ -42,6 +55,12 @@ body {
 .main_button:hover {
   transition: box-shadow 0.1s ease;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.main_button:active {
+  transition: box-shadow 0.1s ease;
+  box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12);
   cursor: pointer;
 }
 
