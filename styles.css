@@ -1,9 +1,15 @@
+html, body, ul, li {
+  padding: 0;
+  margin: 0;
+}
+
 body {
   background: #D4D8DD;
 }
 
 .main_wrapper {
-  margin: 120px auto;
+  margin: 0 auto;
+  padding: 120px 0;
   width: 1200px;
   /**/
 }
@@ -66,4 +72,49 @@ body {
 
 .clear {
   clear: both;
+}
+
+.transition_wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  /*display: none;*/
+  /*visibility: hidden;*/
+}
+
+.transitioner {
+  height: 100px;
+  width: 100px;
+  border-radius: 100%;
+  background-color: #FF8500;
+  position: absolute;
+  transform: scale();
+  opacity: 0;
+}
+
+.ripple {
+  opacity: 1;
+  transition: transform 0.8s ease;
+  transform: scale(100);
+}
+
+.fadeOut {
+  transition: opacity 1s ease 0.6s;
+  opacity: 0;
+}
+
+.stage {
+  height: 100vh;
+}
+
+li {
+  list-style: none;
+  height: 100vh;
+}
+
+.yellow {
+  background-color: yellow;
 }

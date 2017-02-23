@@ -8,34 +8,72 @@
     <script type="text/javascript">
       $(document).ready(function(){
         clicked=false;
+        $(".transition_wrapper").hide();
         $(".main_button").click(function(){
           if(!clicked)
           {
             clicked=true;
             winner=Math.floor(Math.random()*4);
             $(".box:eq("+winner+")").addClass("exit");
-            $(".exit").mouseup(win);
+            $(".exit").click(function (e){
+              console.log(e.pageX)
+              $(".transition_wrapper").show();
+              $(".transition_wrapper").addClass("fadeOut").delay(100);
+              $(".transition_wrapper").delay(2000).queue(function (next){
+                    $(this).removeClass("fadeOut");
+                    $(this).hide();
+                    next();
+                });
+
+              $(".transitioner").css({"left": (e.pageX-50), "top":(e.pageY-50)});
+              $(".transitioner").addClass("ripple");
+              $(".transitioner").delay(2000).queue(function (next){
+                  $(this).removeClass("ripple");
+                  next();
+                });
+
+
+              $("#uno").slideUp(100)
+              /*$("html, body").stop(true,true).delay(400).animate({
+                scrollTop: $("#dos").offset().top
+              }, 400);*/
+              /*$(".game").stop(true,true).delay(1000).animate({
+                top: "-=100"
+              }, 1000);*/
+            });
 
           }
 
         });
 
-        function win () {
-          console.log("bien!")
-        }
+        /*function win () {
+          console.log("bien!");
+
+        }*/
 
       })
     </script>
   </head>
   <body>
-    <div class="main_wrapper">
-      <div class="box">&nbsp;</div>
-      <div class="box">&nbsp;</div>
-      <div class="box">&nbsp;</div>
-      <div class="box">&nbsp;</div>
-      <div class="clear"></div>
+    <div class="transition_wrapper">
+      <div class="transitioner"></div>
     </div>
-    <div class="main_button" id="boton">&nbsp;</div>
-    <div id="msgid"></div>
+
+      <ul class="game">
+        <li id="uno" class=stage>
+          <div class="main_wrapper">
+            <div class="box">&nbsp;</div>
+            <div class="box">&nbsp;</div>
+            <div class="box">&nbsp;</div>
+            <div class="box">&nbsp;</div>
+            <div class="clear"></div>
+          </div>
+          <div class="main_button" id="boton">&nbsp;</div>
+        </li class=stage>
+        <li id="dos" class="">
+          <div class="main_button">&nbsp;</div>
+        </li>
+      </ul>
+
   </body>
 </html>
