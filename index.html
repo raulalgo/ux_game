@@ -7,13 +7,21 @@
     <script type="text/javascript" src="jquery-3.1.1.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
+        clicked=false;
         $(".main_button").click(function(){
-          $(".este").addClass("exit");
-          $(".exit").click(win);
+          if(!clicked)
+          {
+            clicked=true;
+            winner=Math.floor(Math.random()*4);
+            $(".box:eq("+winner+")").addClass("exit");
+            $(".exit").mouseup(win);
+
+          }
+
         });
 
         function win () {
-          //alert ("tada!!!");
+          console.log("bien!")
         }
 
       })
@@ -23,7 +31,7 @@
     <div class="main_wrapper">
       <div class="box">&nbsp;</div>
       <div class="box">&nbsp;</div>
-      <div class="box este">&nbsp;</div>
+      <div class="box">&nbsp;</div>
       <div class="box">&nbsp;</div>
       <div class="clear"></div>
     </div>
