@@ -12,6 +12,9 @@
         dos_flag=true;
         dos_counter = 0;
 
+        levels = ["uno", "dos", "tres"];
+        level_index = 0;
+        present(levels[level_index]);
         $(".transition_wrapper").hide();
         $(".main").click(function(){
           if(!clicked)
@@ -26,11 +29,13 @@
               $(".exit").click(function (e){
                 exit(e);
                 $("#uno").slideUp(100)
+
                 clicked=false;
               });
             }
             else if(jQuery.inArray("dos", class_arr)>=0)
             {
+              console.log("the level is:" +level_index);
               if(dos_flag)
               {
                 winner = giveWinner(1,4);
@@ -74,14 +79,15 @@
           $(".transition_wrapper").delay(2000).queue(function (next){
                 $(this).removeClass("fadeOut");
                 $(this).hide();
-                next();
+                //next();
             });
 
           $(".transitioner").css({"left": (e.pageX-50), "top":(e.pageY-50)});
           $(".transitioner").addClass("ripple");
           $(".transitioner").delay(2000).queue(function (next){
               $(this).removeClass("ripple");
-              next();
+              //next();
+              present(levels[++level_index])
             });
           /*$("html, body").stop(true,true).delay(400).animate({
             scrollTop: $("#dos").offset().top
@@ -95,6 +101,23 @@
           range = to-from;
           return Math.floor(Math.random()*range) + from;
         }
+
+        function present (level){
+          present_counter = 0
+          console.log(level);
+          //console.log($("#" + level + " .box"))
+          $("#"+level+" .box").each(function (index){
+
+            $(this).delay(index * 50).queue(function (){
+              $(this).toggleClass("hide fall");
+            });
+            present_counter++;
+          })
+          $("#"+level+" .button").delay(present_counter*50).queue(function (){
+            $(this).toggleClass("hide fall");
+          });
+        }
+
         /*function win () {
           console.log("bien!");
 
@@ -111,22 +134,26 @@
       <ul class="game">
         <li id="uno" class=stage>
           <div class="main_wrapper">
-            <div class="box vertical fleft b_side">&nbsp;</div>
-            <div class="box vertical fleft b_side">&nbsp;</div>
-            <div class="box vertical fleft b_side">&nbsp;</div>
-            <div class="box vertical fleft b_side">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
             <div class="clear"></div>
           </div>
-          <div class="button blue main horizontal uno" id="boton">&nbsp;</div>
+          <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
         </li class=stage>
         <li id="dos" class="">
           <div class="main_wrapper">
-            <div class="box grey horizontal b_center"></div>
-            <div class="box grey horizontal b_center"></div>
-            <div class="box grey horizontal b_center"></div>
-            <div class="box grey horizontal b_center"></div>
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box grey horizontal b_center hide"></div>
           </div>
-          <div class="button blue main horizontal dos">&nbsp;</div>
+          <div class="button blue main horizontal dos hide">&nbsp;</div>
+        </li>
+        <li id="tres">
+          <div class="main_wrapper"></div>
+          <div class="button blue main horizontal tres">&nbsp;</div>
         </li>
       </ul>
 
