@@ -8,18 +8,61 @@
     <script type="text/javascript">
       $(document).ready(function(){
         clicked=false;
+
+        dos_flag=true;
+        dos_counter = 0;
+
         $(".transition_wrapper").hide();
         $(".main").click(function(){
           if(!clicked)
           {
-            clicked=true;
-            winner=Math.floor(Math.random()*4);
-            $(".box:eq("+winner+")").addClass("exit");
-            $(".exit").click(function (e){
-              exit(e);
-              $("#uno").slideUp(100)
-            });
+            class_arr = $(this).attr("class").split(" ");
+            //console.log(class_arr);
+            if(jQuery.inArray("uno",class_arr)>=0)
+            {
+              clicked=true;
+              winner=giveWinner(0,4);
+              $(".box:eq("+winner+")").addClass("exit");
+              $(".exit").click(function (e){
+                exit(e);
+                $("#uno").slideUp(100)
+                clicked=false;
+              });
+            }
+            else if(jQuery.inArray("dos", class_arr)>=0)
+            {
+              if(dos_flag)
+              {
+                winner = giveWinner(1,4);
+                dos_flag = false;
+              }
 
+              console.log(winner);
+              //Turning the current off
+              $(".white").toggleClass("grey white clickme");
+
+              $(".exit").toggleClass("grey exit");
+
+
+              $("#dos .box:eq("+ dos_counter + ")").toggleClass("grey");
+
+              if(dos_counter!=winner)
+              {
+                $("#dos .box:eq("+ dos_counter +")").toggleClass("white clickme");
+              }
+              else {
+                $("#dos .box:eq("+ dos_counter + ")").toggleClass("exit");
+              }
+              dos_counter++;
+              if(dos_counter==4)
+                dos_counter=0;
+
+              $(".exit").click(function (e){
+                exit(e);
+                $("#dos").slideUp(100);
+                clicked="false";
+              });
+            }
           }
 
         });
@@ -47,6 +90,11 @@
             top: "-=100"
           }, 1000);*/
         }
+
+        function giveWinner (from,to) {
+          range = to-from;
+          return Math.floor(Math.random()*range) + from;
+        }
         /*function win () {
           console.log("bien!");
 
@@ -69,16 +117,16 @@
             <div class="box vertical fleft b_side">&nbsp;</div>
             <div class="clear"></div>
           </div>
-          <div class="button blue main horizontal" id="boton">&nbsp;</div>
+          <div class="button blue main horizontal uno" id="boton">&nbsp;</div>
         </li class=stage>
         <li id="dos" class="">
           <div class="main_wrapper">
-            <div class="box horizontal b_center white"></div>
+            <div class="box grey horizontal b_center"></div>
             <div class="box grey horizontal b_center"></div>
             <div class="box grey horizontal b_center"></div>
             <div class="box grey horizontal b_center"></div>
           </div>
-          <div class="button blue main horizontal">&nbsp;</div>
+          <div class="button blue main horizontal dos">&nbsp;</div>
         </li>
       </ul>
 
