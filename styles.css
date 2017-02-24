@@ -5,24 +5,37 @@ html, body, ul, li {
 
 body {
   background: #D4D8DD;
+  overflow: hidden;
 }
 
 .main_wrapper {
   margin: 0 auto;
-  padding: 120px 0;
+  padding: 80px 0 40px;
   width: 1200px;
   /**/
 }
 
 
 .box {
-  float: left;
-  margin: 0 16px;
+
   background: #B9B9B9;
   opacity: 1.00;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.1), 0px 0px 2px rgba(0, 0, 0, 0.25);
+
+}
+
+.fleft {
+  float: left;
+}
+
+.vertical {
   height: 400px;
   width: 268px;
+}
+
+.horizontal {
+  height: 120px;
+  width: 400px;
 }
 
 .exit {
@@ -44,30 +57,36 @@ body {
   cursor: pointer;
 }
 
-.main_button {
+.button {
   /* Rectangle 2 */
-  background: #2F80ED;
+
   opacity: 1.00;
   border-radius: 4px;
-  height: 120px;
-  width: 400px;
-  margin: 0 auto;
+  margin: 12px auto;
 
   transition: box-shadow 0.1s ease;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12);
 
 }
 
-.main_button:hover {
+.button:hover {
   transition: box-shadow 0.1s ease;
   box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.24), 0px 0px 8px rgba(0, 0, 0, 0.12);
   cursor: pointer;
 }
 
-.main_button:active {
+.button:active {
   transition: box-shadow 0.1s ease;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.24), 0px 0px 2px rgba(0, 0, 0, 0.12);
   cursor: pointer;
+}
+
+.b_center {
+  margin: 12px auto;
+}
+
+.b_side {
+  margin: 0 16px;
 }
 
 .clear {
@@ -115,6 +134,18 @@ li {
   height: 100vh;
 }
 
+.white {
+  background: white;
+}
+
+.blue {
+  background: #2F80ED;
+}
+
 .yellow {
   background-color: yellow;
+}
+
+.grey {
+  background: #B9B9B9;
 }

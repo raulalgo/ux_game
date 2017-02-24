@@ -2,50 +2,51 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>The unspoken UX game</title>
+    <title>Press the button</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script type="text/javascript" src="jquery-3.1.1.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
         clicked=false;
         $(".transition_wrapper").hide();
-        $(".main_button").click(function(){
+        $(".main").click(function(){
           if(!clicked)
           {
             clicked=true;
             winner=Math.floor(Math.random()*4);
             $(".box:eq("+winner+")").addClass("exit");
             $(".exit").click(function (e){
-              console.log(e.pageX)
-              $(".transition_wrapper").show();
-              $(".transition_wrapper").addClass("fadeOut").delay(100);
-              $(".transition_wrapper").delay(2000).queue(function (next){
-                    $(this).removeClass("fadeOut");
-                    $(this).hide();
-                    next();
-                });
-
-              $(".transitioner").css({"left": (e.pageX-50), "top":(e.pageY-50)});
-              $(".transitioner").addClass("ripple");
-              $(".transitioner").delay(2000).queue(function (next){
-                  $(this).removeClass("ripple");
-                  next();
-                });
-
-
+              exit(e);
               $("#uno").slideUp(100)
-              /*$("html, body").stop(true,true).delay(400).animate({
-                scrollTop: $("#dos").offset().top
-              }, 400);*/
-              /*$(".game").stop(true,true).delay(1000).animate({
-                top: "-=100"
-              }, 1000);*/
             });
 
           }
 
         });
 
+        function exit (e){
+          console.log(e.pageX)
+          $(".transition_wrapper").show();
+          $(".transition_wrapper").addClass("fadeOut").delay(100);
+          $(".transition_wrapper").delay(2000).queue(function (next){
+                $(this).removeClass("fadeOut");
+                $(this).hide();
+                next();
+            });
+
+          $(".transitioner").css({"left": (e.pageX-50), "top":(e.pageY-50)});
+          $(".transitioner").addClass("ripple");
+          $(".transitioner").delay(2000).queue(function (next){
+              $(this).removeClass("ripple");
+              next();
+            });
+          /*$("html, body").stop(true,true).delay(400).animate({
+            scrollTop: $("#dos").offset().top
+          }, 400);*/
+          /*$(".game").stop(true,true).delay(1000).animate({
+            top: "-=100"
+          }, 1000);*/
+        }
         /*function win () {
           console.log("bien!");
 
@@ -62,16 +63,22 @@
       <ul class="game">
         <li id="uno" class=stage>
           <div class="main_wrapper">
-            <div class="box">&nbsp;</div>
-            <div class="box">&nbsp;</div>
-            <div class="box">&nbsp;</div>
-            <div class="box">&nbsp;</div>
+            <div class="box vertical fleft b_side">&nbsp;</div>
+            <div class="box vertical fleft b_side">&nbsp;</div>
+            <div class="box vertical fleft b_side">&nbsp;</div>
+            <div class="box vertical fleft b_side">&nbsp;</div>
             <div class="clear"></div>
           </div>
-          <div class="main_button" id="boton">&nbsp;</div>
+          <div class="button blue main horizontal" id="boton">&nbsp;</div>
         </li class=stage>
         <li id="dos" class="">
-          <div class="main_button">&nbsp;</div>
+          <div class="main_wrapper">
+            <div class="box horizontal b_center white"></div>
+            <div class="box grey horizontal b_center"></div>
+            <div class="box grey horizontal b_center"></div>
+            <div class="box grey horizontal b_center"></div>
+          </div>
+          <div class="button blue main horizontal">&nbsp;</div>
         </li>
       </ul>
 
