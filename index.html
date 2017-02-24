@@ -10,6 +10,10 @@
         clicked=false;
 
         dos_flag=true;
+        tres_flag = true;
+
+        toggler = true;
+
         dos_counter = 0;
 
         levels = ["uno", "dos", "tres"];
@@ -35,7 +39,6 @@
             }
             else if(jQuery.inArray("dos", class_arr)>=0)
             {
-              console.log("the level is:" +level_index);
               if(dos_flag)
               {
                 winner = giveWinner(1,4);
@@ -68,6 +71,60 @@
                 clicked="false";
               });
             }
+            else if(jQuery.inArray("tres", class_arr)>=0)
+            {
+              if(tres_flag)
+              {
+                winner = giveWinner(0,4);
+                for(i=0;i<4;i++)
+                {
+                  if (i==winner) {
+                    $("#tres .box:eq(" + i + ")").addClass("winner")
+                  }
+                  else {
+                    $("#tres .box:eq(" + i + ")").addClass("loser")
+                  }
+                }
+
+                $(".loser").click(function (){
+                  $(this).toggleClass("white grey")
+                });
+
+                $(".winner").click(function (e){
+                  if(jQuery.inArray("exit", class_arr)==0)
+                  {
+                    $(this).removeClass("white winner");
+                    $(this).addClass("exit");
+                  }
+                  else {
+                    exit(e);
+                    $("#tres").slideUp(100);
+                    clicked="false";
+                  }
+                })
+
+                $(".exit").click(function (e){
+                  exit(e);
+                  $("#tres").slideUp(100);
+                  clicked="false";
+                });
+              }
+
+              if (toggler)
+              {
+                $("#tres .box").removeClass("grey");
+                $("#tres .box").addClass("white clickme");
+                toggler = false
+              }
+              else
+              {
+                $("#tres .box").addClass("grey");
+                $("#tres .box").removeClass("white clickme");
+                toggler = true
+              }
+
+
+            }
           }
 
         });
@@ -79,15 +136,18 @@
           $(".transition_wrapper").delay(2000).queue(function (next){
                 $(this).removeClass("fadeOut");
                 $(this).hide();
-                //next();
+                next();
             });
 
           $(".transitioner").css({"left": (e.pageX-50), "top":(e.pageY-50)});
           $(".transitioner").addClass("ripple");
           $(".transitioner").delay(2000).queue(function (next){
               $(this).removeClass("ripple");
-              //next();
+
+              console.log("level index is: " + level_index);
               present(levels[++level_index])
+              console.log("and now is: " + level_index);
+              next();
             });
           /*$("html, body").stop(true,true).delay(400).animate({
             scrollTop: $("#dos").offset().top
@@ -104,18 +164,26 @@
 
         function present (level){
           present_counter = 0
-          console.log(level);
-          //console.log($("#" + level + " .box"))
-          $("#"+level+" .box").each(function (index){
+          console.log("presenting level:" +level);
+          if($("li#"+level).length)
+          {
+            //console.log($("#" + level + " .box"))
+            $("#"+level+" .box").each(function (index){
 
-            $(this).delay(index * 50).queue(function (){
+              $(this).delay(index * 50).queue(function (){
+                $(this).toggleClass("hide fall");
+              });
+              present_counter++;
+            })
+            $("#"+level+" .button").delay(present_counter*50).queue(function (){
               $(this).toggleClass("hide fall");
             });
-            present_counter++;
-          })
-          $("#"+level+" .button").delay(present_counter*50).queue(function (){
-            $(this).toggleClass("hide fall");
-          });
+          }
+          else {
+            level_index++
+            if(levels[level_index]!=null)
+              present(levels[level_index]);
+          }
         }
 
         /*function win () {
@@ -132,7 +200,7 @@
     </div>
 
       <ul class="game">
-        <li id="uno" class=stage>
+      <!--<li id="uno" class=stage>
           <div class="main_wrapper">
             <div class="box vertical fleft b_side hide">&nbsp;</div>
             <div class="box vertical fleft b_side hide">&nbsp;</div>
@@ -150,10 +218,15 @@
             <div class="box grey horizontal b_center hide"></div>
           </div>
           <div class="button blue main horizontal dos hide">&nbsp;</div>
-        </li>
+        </li>-->
         <li id="tres">
-          <div class="main_wrapper"></div>
-          <div class="button blue main horizontal tres">&nbsp;</div>
+          <div class="main_wrapper">
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box grey horizontal b_center hide"></div>
+          </div>
+          <div class="button blue main horizontal tres hide">&nbsp;</div>
         </li>
       </ul>
 
