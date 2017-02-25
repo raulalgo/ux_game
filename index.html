@@ -16,14 +16,19 @@
 
         dos_counter = 0;
 
-        levels = ["uno", "dos", "tres"];
+        levels = ["tres", "cuatro"];
         level_index = 0;
         present(levels[level_index]);
         $(".transition_wrapper").hide();
         $(".main").click(function(){
+          console.log("clicked: " + clicked);
+          class_arr = $(this).attr("class").split(" ");
+          console.log("array: " + class_arr);
+          console.log("esta en el array: " + jQuery.inArray("tres", class_arr));
           if(!clicked)
           {
-            class_arr = $(this).attr("class").split(" ");
+            console.log("poh queh");
+
             //console.log(class_arr);
             if(jQuery.inArray("uno",class_arr)>=0)
             {
@@ -73,6 +78,7 @@
             }
             else if(jQuery.inArray("tres", class_arr)>=0)
             {
+              console.log("click");
               if(tres_flag)
               {
                 winner = giveWinner(0,4);
@@ -91,23 +97,23 @@
                 });
 
                 $(".winner").click(function (e){
-                  if(jQuery.inArray("exit", class_arr)==0)
-                  {
+                  /*if(jQuery.inArray("exit", class_arr)==0)
+                  {*/
                     $(this).removeClass("white winner");
                     $(this).addClass("exit");
-                  }
-                  else {
+                  //}
+                  /*else {
                     exit(e);
                     $("#tres").slideUp(100);
                     clicked="false";
-                  }
+                  }*/
                 })
 
-                $(".exit").click(function (e){
+                /*$(".exit").click(function (e){
                   exit(e);
                   $("#tres").slideUp(100);
                   clicked="false";
-                });
+                });*/
               }
 
               if (toggler)
@@ -165,8 +171,7 @@
         function present (level){
           present_counter = 0
           console.log("presenting level:" +level);
-          if($("li#"+level).length)
-          {
+
             //console.log($("#" + level + " .box"))
             $("#"+level+" .box").each(function (index){
 
@@ -178,12 +183,11 @@
             $("#"+level+" .button").delay(present_counter*50).queue(function (){
               $(this).toggleClass("hide fall");
             });
-          }
-          else {
+          /*else {
             level_index++
             if(levels[level_index]!=null)
               present(levels[level_index]);
-          }
+          }*/
         }
 
         /*function win () {
@@ -200,17 +204,17 @@
     </div>
 
       <ul class="game">
-      <!--<li id="uno" class=stage>
-          <div class="main_wrapper">
-            <div class="box vertical fleft b_side hide">&nbsp;</div>
-            <div class="box vertical fleft b_side hide">&nbsp;</div>
-            <div class="box vertical fleft b_side hide">&nbsp;</div>
-            <div class="box vertical fleft b_side hide">&nbsp;</div>
-            <div class="clear"></div>
-          </div>
-          <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
-        </li class=stage>
-        <li id="dos" class="">
+      <!--  <li id="uno">
+            <div class="main_wrapper">
+              <div class="box vertical fleft b_side hide">&nbsp;</div>
+              <div class="box vertical fleft b_side hide">&nbsp;</div>
+              <div class="box vertical fleft b_side hide">&nbsp;</div>
+              <div class="box vertical fleft b_side hide">&nbsp;</div>
+              <div class="clear"></div>
+            </div>
+            <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
+        </li>
+        <li id="dos">
           <div class="main_wrapper">
             <div class="box grey horizontal b_center hide"></div>
             <div class="box grey horizontal b_center hide"></div>
