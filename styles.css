@@ -127,7 +127,7 @@ body {
   background-color: #FF8500;
   position: absolute;
   transform: scale();
-  opacity: 0;
+  opacity: 1;
 }
 
 .ripple {

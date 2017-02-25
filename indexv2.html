@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Press the button</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script type="text/javascript" src="jquery-3.1.1.js"></script>
+    <script type="text/javascript">
+      $(document).ready(function(){
+        level_index = 0;
+        $(".transition_wrapper").hide();
+        present_level(level_index);
+
+
+        $(".main").click(function(){
+        })
+
+        $(".exit").click(function(e){
+          exit_level(e);
+          hide_level(level_index);
+        })
+      });
+
+      function present_level (level) {
+        present_counter = 0
+
+        $("li:eq("+level+") .box").each(function (index){
+          $(this).delay(index * 50).queue(function (){
+            $(this).toggleClass("hide fall");
+          });
+          present_counter++;
+        });
+
+        $("li:eq("+level+") .button").delay(present_counter*50).queue(function (){
+          $(this).toggleClass("hide fall");
+        });
+      }
+
+      function hide_level (level) {
+        $("li:eq("+level+")").slideUp(100);
+      }
+
+      function exit_level (e) {
+        $(".transition_wrapper").show();
+        $(".transition_wrapper").addClass("fadeOut").delay(100);
+        $(".transition_wrapper").delay(2000).queue(function (next) {
+          $(this).removeClass("fadeOut");
+          $(this).hide();
+          next();
+        });
+
+        $(".transitioner").css({"left": (e.pageX-50), "top":(e.pageY-50)});
+        $(".transitioner").addClass("ripple");
+        $(".transitioner").delay(2000).queue(function (next){
+          $(this).removeClass("ripple");
+
+          level_index ++;
+          present_level(level_index);
+
+          next();
+        })
+      }
+    </script>
+  </head>
+  <body>
+    <div class="transition_wrapper">
+      <div class="transitioner"></div>
+    </div>
+
+      <ul class="game">
+        <li id="uno">
+          uno
+            <div class="main_wrapper">
+              <div class="box vertical fleft b_side hide">&nbsp;</div>
+              <div class="box vertical fleft b_side hide">&nbsp;</div>
+              <div class="box vertical fleft b_side hide exit">&nbsp;</div>
+              <div class="box vertical fleft b_side hide">&nbsp;</div>
+              <div class="clear"></div>
+            </div>
+            <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
+        </li>
+        <li id="dos">
+          dos
+          <div class="main_wrapper">
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box  horizontal b_center hide exit"></div>
+            <div class="box grey horizontal b_center hide"></div>
+          </div>
+          <div class="button blue main horizontal dos hide">&nbsp;</div>
+        </li>
+        <li id="tres">
+          tres
+          <div class="main_wrapper">
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box grey horizontal b_center hide"></div>
+            <div class="box  horizontal b_center hide exit"></div>
+            <div class="box grey horizontal b_center hide"></div>
+          </div>
+          <div class="button blue main horizontal tres hide">&nbsp;</div>
+        </li>
+      </ul>
+
+  </body>
+</html>
