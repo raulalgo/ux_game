@@ -8,17 +8,133 @@
     <script type="text/javascript">
       $(document).ready(function(){
         level_index = 0;
+        clickable = false;
+        first_flag = true;
+        toggle_flag = true;
+        exit_flag = false;
+        counter = 0;
+
         $(".transition_wrapper").hide();
         present_level(level_index);
 
 
         $(".main").click(function(){
+          class_arr = $(this).attr("class").split(" ");
+          if(!clickable)
+          {
+            if(jQuery.inArray("uno",class_arr)>=0)
+            {
+              clickable = true;
+              winner = giveWinner(0,4);
+              $(".box:eq("+winner+")").addClass("exit");
+              $(".exit").click(function(e){
+                exit_level(e);
+                hide_level(level_index);
+                clickable = false
+              })
+              //$(".exit").click
+            }
+            else if(jQuery.inArray("dos",class_arr)>=0)
+            {
+              if(first_flag==true){
+                winner = giveWinner(1,4);
+                first_flag = false;
+              }
+              else {
+                $(".white").toggleClass("grey white clickme");
+                $(".exit").toggleClass("grey exit");
+              }
+
+            //
+            //  $("li:eq("+level_index+") .box:eq("+counter+")").toggleClass("grey white");
+
+
+
+              if(counter!=winner) {
+                $("li:eq("+level_index+") .box:eq("+counter+")").toggleClass("white clickme grey");
+              }
+              else {
+                $("li:eq("+level_index+") .box:eq("+counter+")").toggleClass("exit grey");
+
+              }
+
+              counter++;
+              if(counter==4)
+                counter=0;
+
+                $(".exit").click(function(e){
+                  exit_level(e);
+                  hide_level(level_index);
+                  clickable = false
+                })
+
+            }
+            else if(jQuery.inArray("tres",class_arr)>=0)
+            {
+              if(first_flag==true){
+                winner = giveWinner(0,4);
+                first_flag = false;
+
+                for(i=0;i<4;i++){
+                  if(i==winner){
+                    $("li:eq("+level_index+") .box:eq("+i+")").addClass("winner")
+                  }
+                  else {
+                    $("li:eq("+level_index+") .box:eq("+i+")").addClass("loser")
+                  }
+                }
+              }
+
+
+              if (toggle_flag){
+                $("li:eq("+level_index+") .box").removeClass("grey")
+                $("li:eq("+level_index+") .box").addClass("white clickme")
+                toggle_flag = false
+              }
+              else {
+                $("li:eq("+level_index+") .box").addClass("grey")
+                $("li:eq("+level_index+") .box").removeClass("white clickme")
+                toggle_flag = true
+              }
+
+              $(".exit").click(function(e){
+                exit_level(e);
+                hide_level(level_index);
+                clicked = false
+              })
+
+
+              $(".loser").click(function (){
+                $(this).toggleClass("white grey")
+              });
+
+              $(".winner").click(function (){
+
+                $(this).removeClass("white");
+                $(this).addClass("exit");
+
+                $(this).click(function (e){
+                  exit_level(e);
+                  hide_level(level_index);
+                  clicked = false
+                })
+
+              });
+
+              /*$(".exit").click(function (e){
+                exit_level(e);
+                hide_level(level_index);
+                clickable = false
+              })*/
+            }
+          }
         })
 
-        $(".exit").click(function(e){
-          exit_level(e);
-          hide_level(level_index);
-        })
+
+        function giveWinner (from,to) {
+          range = to-from;
+          return Math.floor(Math.random()*range) + from;
+        }
       });
 
       function present_level (level) {
@@ -34,6 +150,7 @@
         $("li:eq("+level+") .button").delay(present_counter*50).queue(function (){
           $(this).toggleClass("hide fall");
         });
+        first_flag = true;
       }
 
       function hide_level (level) {
@@ -69,32 +186,29 @@
 
       <ul class="game">
         <li id="uno">
-          uno
-            <div class="main_wrapper">
-              <div class="box vertical fleft b_side hide">&nbsp;</div>
-              <div class="box vertical fleft b_side hide">&nbsp;</div>
-              <div class="box vertical fleft b_side hide exit">&nbsp;</div>
-              <div class="box vertical fleft b_side hide">&nbsp;</div>
-              <div class="clear"></div>
-            </div>
-            <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
+          <div class="main_wrapper">
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="clear"></div>
+          </div>
+          <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
         </li>
         <li id="dos">
-          dos
           <div class="main_wrapper">
             <div class="box grey horizontal b_center hide"></div>
             <div class="box grey horizontal b_center hide"></div>
-            <div class="box  horizontal b_center hide exit"></div>
+            <div class="box grey horizontal b_center hide"></div>
             <div class="box grey horizontal b_center hide"></div>
           </div>
           <div class="button blue main horizontal dos hide">&nbsp;</div>
         </li>
         <li id="tres">
-          tres
           <div class="main_wrapper">
             <div class="box grey horizontal b_center hide"></div>
             <div class="box grey horizontal b_center hide"></div>
-            <div class="box  horizontal b_center hide exit"></div>
+            <div class="box grey horizontal b_center hide"></div>
             <div class="box grey horizontal b_center hide"></div>
           </div>
           <div class="button blue main horizontal tres hide">&nbsp;</div>
