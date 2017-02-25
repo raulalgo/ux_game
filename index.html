@@ -7,195 +7,176 @@
     <script type="text/javascript" src="jquery-3.1.1.js"></script>
     <script type="text/javascript">
       $(document).ready(function(){
-        clicked=false;
-
-        dos_flag=true;
-        tres_flag = true;
-
-        toggler = true;
-
-        dos_counter = 0;
-
-        levels = ["tres", "cuatro"];
         level_index = 0;
-        present(levels[level_index]);
-        $(".transition_wrapper").hide();
-        $(".main").click(function(){
-          console.log("clicked: " + clicked);
-          class_arr = $(this).attr("class").split(" ");
-          console.log("array: " + class_arr);
-          console.log("esta en el array: " + jQuery.inArray("tres", class_arr));
-          if(!clicked)
-          {
-            console.log("poh queh");
+        clickable = false;
+        first_flag = true;
+        toggle_flag = true;
+        exit_flag = false;
+        counter = 0;
 
-            //console.log(class_arr);
+        $(".transition_wrapper").hide();
+        present_level(level_index);
+
+
+        $(".main").click(function(){
+          class_arr = $(this).attr("class").split(" ");
+          if(!clickable)
+          {
             if(jQuery.inArray("uno",class_arr)>=0)
             {
-              clicked=true;
-              winner=giveWinner(0,4);
+              clickable = true;
+              winner = giveWinner(0,4);
               $(".box:eq("+winner+")").addClass("exit");
-              $(".exit").click(function (e){
-                exit(e);
-                $("#uno").slideUp(100)
-
-                clicked=false;
-              });
+              $(".exit").click(function(e){
+                exit_level(e);
+                hide_level(level_index);
+                clickable = false
+              })
+              //$(".exit").click
             }
-            else if(jQuery.inArray("dos", class_arr)>=0)
+            else if(jQuery.inArray("dos",class_arr)>=0)
             {
-              if(dos_flag)
-              {
+              if(first_flag==true){
                 winner = giveWinner(1,4);
-                dos_flag = false;
-              }
-
-              console.log(winner);
-              //Turning the current off
-              $(".white").toggleClass("grey white clickme");
-
-              $(".exit").toggleClass("grey exit");
-
-
-              $("#dos .box:eq("+ dos_counter + ")").toggleClass("grey");
-
-              if(dos_counter!=winner)
-              {
-                $("#dos .box:eq("+ dos_counter +")").toggleClass("white clickme");
+                first_flag = false;
               }
               else {
-                $("#dos .box:eq("+ dos_counter + ")").toggleClass("exit");
+                $(".white").toggleClass("grey white clickme");
+                $(".exit").toggleClass("grey exit");
               }
-              dos_counter++;
-              if(dos_counter==4)
-                dos_counter=0;
 
-              $(".exit").click(function (e){
-                exit(e);
-                $("#dos").slideUp(100);
-                clicked="false";
-              });
-            }
-            else if(jQuery.inArray("tres", class_arr)>=0)
-            {
-              console.log("click");
-              if(tres_flag)
-              {
-                winner = giveWinner(0,4);
-                for(i=0;i<4;i++)
-                {
-                  if (i==winner) {
-                    $("#tres .box:eq(" + i + ")").addClass("winner")
-                  }
-                  else {
-                    $("#tres .box:eq(" + i + ")").addClass("loser")
-                  }
-                }
+            //
+            //  $("li:eq("+level_index+") .box:eq("+counter+")").toggleClass("grey white");
 
-                $(".loser").click(function (){
-                  $(this).toggleClass("white grey")
-                });
 
-                $(".winner").click(function (e){
-                  /*if(jQuery.inArray("exit", class_arr)==0)
-                  {*/
-                    $(this).removeClass("white winner");
-                    $(this).addClass("exit");
-                  //}
-                  /*else {
-                    exit(e);
-                    $("#tres").slideUp(100);
-                    clicked="false";
-                  }*/
+
+              if(counter!=winner) {
+                $("li:eq("+level_index+") .box:eq("+counter+")").toggleClass("white clickme grey");
+              }
+              else {
+                $("li:eq("+level_index+") .box:eq("+counter+")").toggleClass("exit grey");
+
+              }
+
+              counter++;
+              if(counter==4)
+                counter=0;
+
+                $(".exit").click(function(e){
+                  exit_level(e);
+                  hide_level(level_index);
+                  clickable = false
                 })
 
-                /*$(".exit").click(function (e){
-                  exit(e);
-                  $("#tres").slideUp(100);
-                  clicked="false";
-                });*/
-              }
+            }
+            else if(jQuery.inArray("tres",class_arr)>=0)
+            {
+              if(first_flag==true){
+                winner = giveWinner(0,4);
+                first_flag = false;
 
-              if (toggler)
-              {
-                $("#tres .box").removeClass("grey");
-                $("#tres .box").addClass("white clickme");
-                toggler = false
-              }
-              else
-              {
-                $("#tres .box").addClass("grey");
-                $("#tres .box").removeClass("white clickme");
-                toggler = true
+                for(i=0;i<4;i++){
+                  if(i==winner){
+                    $("li:eq("+level_index+") .box:eq("+i+")").addClass("winner")
+                  }
+                  else {
+                    $("li:eq("+level_index+") .box:eq("+i+")").addClass("loser")
+                  }
+                }
               }
 
 
+              if (toggle_flag){
+                $("li:eq("+level_index+") .box").removeClass("grey")
+                $("li:eq("+level_index+") .box").addClass("white clickme")
+                toggle_flag = false
+              }
+              else {
+                $("li:eq("+level_index+") .box").addClass("grey")
+                $("li:eq("+level_index+") .box").removeClass("white clickme")
+                toggle_flag = true
+              }
+
+              $(".exit").click(function(e){
+                exit_level(e);
+                hide_level(level_index);
+                clicked = false
+              })
+
+
+              $(".loser").click(function (){
+                $(this).toggleClass("white grey")
+              });
+
+              $(".winner").click(function (){
+
+                $(this).removeClass("white");
+                $(this).addClass("exit");
+
+                $(this).click(function (e){
+                  exit_level(e);
+                  hide_level(level_index);
+                  clicked = false
+                })
+
+              });
+
+              /*$(".exit").click(function (e){
+                exit_level(e);
+                hide_level(level_index);
+                clickable = false
+              })*/
             }
           }
+        })
 
-        });
-
-        function exit (e){
-          console.log(e.pageX)
-          $(".transition_wrapper").show();
-          $(".transition_wrapper").addClass("fadeOut").delay(100);
-          $(".transition_wrapper").delay(2000).queue(function (next){
-                $(this).removeClass("fadeOut");
-                $(this).hide();
-                next();
-            });
-
-          $(".transitioner").css({"left": (e.pageX-50), "top":(e.pageY-50)});
-          $(".transitioner").addClass("ripple");
-          $(".transitioner").delay(2000).queue(function (next){
-              $(this).removeClass("ripple");
-
-              console.log("level index is: " + level_index);
-              present(levels[++level_index])
-              console.log("and now is: " + level_index);
-              next();
-            });
-          /*$("html, body").stop(true,true).delay(400).animate({
-            scrollTop: $("#dos").offset().top
-          }, 400);*/
-          /*$(".game").stop(true,true).delay(1000).animate({
-            top: "-=100"
-          }, 1000);*/
-        }
 
         function giveWinner (from,to) {
           range = to-from;
           return Math.floor(Math.random()*range) + from;
         }
+      });
 
-        function present (level){
-          present_counter = 0
-          console.log("presenting level:" +level);
+      function present_level (level) {
+        present_counter = 0
 
-            //console.log($("#" + level + " .box"))
-            $("#"+level+" .box").each(function (index){
+        $("li:eq("+level+") .box").each(function (index){
+          $(this).delay(index * 50).queue(function (){
+            $(this).toggleClass("hide fall");
+          });
+          present_counter++;
+        });
 
-              $(this).delay(index * 50).queue(function (){
-                $(this).toggleClass("hide fall");
-              });
-              present_counter++;
-            })
-            $("#"+level+" .button").delay(present_counter*50).queue(function (){
-              $(this).toggleClass("hide fall");
-            });
-          /*else {
-            level_index++
-            if(levels[level_index]!=null)
-              present(levels[level_index]);
-          }*/
-        }
+        $("li:eq("+level+") .button").delay(present_counter*50).queue(function (){
+          $(this).toggleClass("hide fall");
+        });
+        first_flag = true;
+      }
 
-        /*function win () {
-          console.log("bien!");
+      function hide_level (level) {
+        $("li:eq("+level+")").slideUp(100);
+      }
 
-        }*/
+      function exit_level (e) {
+        $(".transition_wrapper").show();
+        $(".transition_wrapper").addClass("fadeOut").delay(100);
+        $(".transition_wrapper").delay(2000).queue(function (next) {
+          $(this).removeClass("fadeOut");
+          $(this).hide();
+          next();
+        });
 
-      })
+        $(".transitioner").css({"left": (e.pageX-50), "top":(e.pageY-50)});
+        $(".transitioner").addClass("ripple");
+        $(".transitioner").delay(2000).queue(function (next){
+          $(this).removeClass("ripple");
+
+          level_index ++;
+          present_level(level_index);
+
+          next();
+        })
+      }
     </script>
   </head>
   <body>
@@ -204,15 +185,15 @@
     </div>
 
       <ul class="game">
-      <!--  <li id="uno">
-            <div class="main_wrapper">
-              <div class="box vertical fleft b_side hide">&nbsp;</div>
-              <div class="box vertical fleft b_side hide">&nbsp;</div>
-              <div class="box vertical fleft b_side hide">&nbsp;</div>
-              <div class="box vertical fleft b_side hide">&nbsp;</div>
-              <div class="clear"></div>
-            </div>
-            <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
+        <li id="uno">
+          <div class="main_wrapper">
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="box vertical fleft b_side hide">&nbsp;</div>
+            <div class="clear"></div>
+          </div>
+          <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
         </li>
         <li id="dos">
           <div class="main_wrapper">
@@ -222,7 +203,7 @@
             <div class="box grey horizontal b_center hide"></div>
           </div>
           <div class="button blue main horizontal dos hide">&nbsp;</div>
-        </li>-->
+        </li>
         <li id="tres">
           <div class="main_wrapper">
             <div class="box grey horizontal b_center hide"></div>
