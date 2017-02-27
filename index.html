@@ -8,11 +8,7 @@
     <script type="text/javascript">
       $(document).ready(function(){
         level_index = 0;
-        clickable = false;
-        first_flag = true;
-        toggle_flag = true;
-        exit_flag = false;
-        counter = 0;
+        reseter();
 
         $(".transition_wrapper").hide();
         present_level(level_index);
@@ -26,13 +22,106 @@
             {
               clickable = true;
               winner = giveWinner(0,4);
-              $(".box:eq("+winner+")").addClass("exit");
+              $("li:eq("+level_index+") .box:eq("+winner+")").addClass("exit");
               $(".exit").click(function(e){
                 exit_level(e);
                 hide_level(level_index);
                 clickable = false
               })
               //$(".exit").click
+            }
+            else if(jQuery.inArray("uno_uno", class_arr)>=0)
+            {
+              console.log("uno_uno");
+              console.log("counter:" +counter);
+              console.log("level_index: " + level_index);
+              if(first_flag==true){
+                winner = giveWinner(1,4);
+                first_flag = false;
+                console.log("uno_uno: winner")
+              }
+              else {
+                $(".white").toggleClass("grey white clickme");
+                $(".exit").toggleClass("grey exit");
+              }
+
+              if(counter!=winner){
+                console.log("not winner");
+                $("li:eq("+level_index+") .box:eq("+counter+")").toggleClass("white clickme grey");
+              }
+              else {
+                $("li:eq("+level_index+") .box:eq("+counter+")").toggleClass("exit grey");
+              }
+
+              counter++;
+              if(counter==4)
+                counter=0;
+
+              $(".exit").click(function(e){
+                exit_level(e);
+                hide_level(level_index);
+                clickable = false
+              })
+              /*clickable = true;
+              winner = giveWinner(0,4);
+              $("li:eq("+level_index+") .box:eq("+ winner +")").addClass("exit");
+              $(".exit").click(function (e){
+                exit_level(e);
+                hide_level(level_index);
+                clickable = false
+              });*/
+            }
+            else if(jQuery.inArray("uno_dos",class_arr)>=0)
+            {
+              if(first_flag==true){
+                winner = giveWinner(0,4);
+                first_flag = false;
+
+                for(i=0;i<4;i++){
+                  if(i==winner){
+                    $("li:eq("+level_index+") .box:eq("+i+")").addClass("winner")
+                  }
+                  else {
+                    $("li:eq("+level_index+") .box:eq("+i+")").addClass("loser")
+                  }
+                }
+              }
+
+
+              if (toggle_flag){
+                $("li:eq("+level_index+") .box").removeClass("grey")
+                $("li:eq("+level_index+") .box").addClass("white clickme")
+                toggle_flag = false
+              }
+              else {
+                $("li:eq("+level_index+") .box").addClass("grey")
+                $("li:eq("+level_index+") .box").removeClass("white clickme")
+                toggle_flag = true
+              }
+
+              $(".exit").click(function(e){
+                exit_level(e);
+                hide_level(level_index);
+                clicked = false
+              })
+
+
+              $(".loser").click(function (){
+                $(this).toggleClass("white grey")
+              });
+
+              $(".winner").click(function (){
+
+                $(this).removeClass("white");
+                $(this).addClass("exit");
+
+                $(this).click(function (e){
+                  exit_level(e);
+                  hide_level(level_index);
+                  clicked = false
+                })
+
+              });
             }
             else if(jQuery.inArray("dos",class_arr)>=0)
             {
@@ -62,11 +151,11 @@
               if(counter==4)
                 counter=0;
 
-                $(".exit").click(function(e){
-                  exit_level(e);
-                  hide_level(level_index);
-                  clickable = false
-                })
+              $(".exit").click(function(e){
+                exit_level(e);
+                hide_level(level_index);
+                clickable = false
+              })
 
             }
             else if(jQuery.inArray("tres",class_arr)>=0)
@@ -176,6 +265,15 @@
 
           next();
         })
+        reseter();
+      }
+
+      function reseter () {
+        clickable = false;
+        first_flag = true;
+        toggle_flag = true;
+        exit_flag = false;
+        counter = 0;
       }
     </script>
   </head>
@@ -194,6 +292,26 @@
             <div class="clear"></div>
           </div>
           <div class="button blue main horizontal uno hide" id="boton">&nbsp;</div>
+        </li>
+        <li id="uno_uno">
+          <div class="main_wrapper">
+            <div class="box grey vertical fleft b_side hide">&nbsp;</div>
+            <div class="box grey vertical fleft b_side hide">&nbsp;</div>
+            <div class="box grey vertical fleft b_side hide">&nbsp;</div>
+            <div class="box grey vertical fleft b_side hide">&nbsp;</div>
+            <div class="clear"></div>
+          </div>
+          <div class="button blue main horizontal hide uno_uno" id="boton">&nbsp;</div>
+        </li>
+        <li id="uno_dos">
+          <div class="main_wrapper">
+            <div class="box grey vertical fleft b_side hide">&nbsp;</div>
+            <div class="box grey vertical fleft b_side hide">&nbsp;</div>
+            <div class="box grey vertical fleft b_side hide">&nbsp;</div>
+            <div class="box grey vertical fleft b_side hide">&nbsp;</div>
+            <div class="clear"></div>
+          </div>
+          <div class="button blue main horizontal hide uno_dos" id="boton">&nbsp;</div>
         </li>
         <li id="dos">
           <div class="main_wrapper">
