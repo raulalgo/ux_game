@@ -20,7 +20,7 @@
           {
             if(jQuery.inArray("new_one",class_arr)>=0)
             {
-              $("li:eq("+level_index+") .secondary").toggleClass("grey pink");
+              $("li:eq("+level_index+") .secondary").toggleClass("grey green");
               $("li:eq("+level_index+") .main").off("click");
               $("li:eq("+level_index+") .main").toggleClass("blue grey main button");
 
@@ -35,7 +35,7 @@
             }
             else if(jQuery.inArray("new_two", class_arr)>=0)
             {
-              $("li:eq("+level_index+") .secondary").toggleClass("grey green");
+              $("li:eq("+level_index+") .secondary").toggleClass("grey pink");
               $("li:eq("+level_index+") .main").off("click");
               $("li:eq("+level_index+") .main").toggleClass("blue grey main button");
 
@@ -87,7 +87,7 @@
               if(counter==4)
                 counter=0;
 
-              $(".exit").click(function(e){
+              $("li:eq("+level_index+") .exit").click(function(e){
                 exit_level(e);
                 hide_level(level_index);
                 clickable = false
